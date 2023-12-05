@@ -1,0 +1,58 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: スキーマ駆動開発テストAPI 
+  license:
+    name: MIT
+servers:
+  - url: http://localhost:1323/
+paths:
+  /greeting:
+    post:
+      summary: 名前を受け取り、挨拶を返答します
+      operationId: greeting
+      tags:
+        - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GreetingRequest"
+      responses:
+        '200':
+          description: 名前を含めた挨拶を返却する
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GreetingResponse"
+        '500':
+          description: サーバー内部エラー
+          content:
+            application/json:
+              schema:
+                example: Internal Server Error
+                type: string
+components:
+  schemas:
+    GreetingRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          example: とらラボ
+          type: string
+          x-go-type: string
+    GreetingResponse:
+      type: object
+      required:
+        - name
+      properties:
+        greeting:
+          example: こんにちは、とらラボさん
+          type: string
+          x-go-type: string
+    Error:
+      example: server error
+      type: string
+      x-go-type: string
